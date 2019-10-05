@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Appp",
+    "name": "NewsApp",
     "slug": "App",
     "privacy": "public",
     "sdkVersion": "34.0.0",
@@ -9,6 +9,9 @@
       "android",
       "web"
     ],
+    "android": {
+      "package": "com.newsapp"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -21,7 +24,6 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
     ],
     "ios": {
       "supportsTablet": true
