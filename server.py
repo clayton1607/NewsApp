@@ -33,7 +33,9 @@ def url():
     error =None
     if request.method=='POST':
         # article = NewsPlease.from_url('https://economictimes.indiatimes.com/wealth/personal-finance-news/rbi-policy-why-repo-rate-cut-failed-to-cheer/articleshow/71451242.cms')
-        article = NewsPlease.from_url(request.form['url'])
+        data=request.get_json()
+        print(data['url'])
+        article = NewsPlease.from_url(data['url'])
         news.append({
             "authors": article.authors,
             "date_download": article.date_download,

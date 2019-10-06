@@ -11,9 +11,12 @@ import {
     ActivityIndicator,
     InteractionManager,
     TouchableOpacity,
-    Linking
+    Linking,
+    Share,
+    Button
 } from 'react-native'
 import AppConfig from '../constants/appconfig';
+import axios from 'react-native-axios';
 var HTMLView = require('react-native-htmlview')
 // import CacheableImage from 'react-native-cacheable-image'
 
@@ -23,7 +26,8 @@ import { darkgradient } from '../constants/darkgradient.png';
 class NewsDetail extends Component {
     static componentName = 'NewsDetail';
     state ={
-        url:''
+        url:'',
+        isReady:false,
     }
     // static propTypes={
     //     title: React.PropTypes.string.isRequired,
@@ -36,52 +40,86 @@ class NewsDetail extends Component {
 
     componentDidMount = () => {
         const { navigation } = this.props;
-        let url=JSON.stringify(navigation.getParam('url', 'NOT AVAILABLE'));
-        this.setState({
-            url:url
-        });
+        let url=navigation.getParam('url', 'NOT AVAILABLE');
+        axios.post('http://192.168.1.105:5002/url',{url:url}).then(res=>{
+            this.setState({
+                url:res.data[0],
+                isReady:true
+            });
+        })
+        
     }
 
     /**
     * RENDER
     */
    handleClick = () => {
-    Linking.canOpenURL(this.state.url).then(supported => {
+    Linking.canOpenURL(this.state.url.url).then(supported => {
       if (supported) {
-        Linking.openURL(this.state.url);
+        Linking.openURL(this.state.url.url);
       } else {
-        console.log("Don't know how to open URI: " + this.state.url);
+        console.log("Don't know how to open URI: " + this.state.url.url);
       }
     });
   };
+
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          this.state.url.url,
+      });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+
     render = () => {
         const { navigation } = this.props;
-        let title=JSON.stringify(navigation.getParam('title', 'NOT AVAILABLE'));
-        let thumbnail=JSON.stringify(navigation.getParam('thumbnail', 'https://upload.wikimedia.org/wikipedia/en/d/d1/Image_not_available.png'));
-        let source=JSON.stringify(navigation.getParam('source', 'NOT AVAILABLE'));
-        let publishedAt=JSON.stringify(navigation.getParam('publishedAt', 'NOT AVAILABLE'));
+        let title=navigation.getParam('title', 'NOT AVAILABLE');
+        let thumbnail=navigation.getParam('thumbnail', 'https://upload.wikimedia.org/wikipedia/en/d/d1/Image_not_available.png');
+        let source=navigation.getParam('source', 'NOT AVAILABLE');
+        // let publishedAt=JSON.stringify(navigation.getParam('publishedAt', 'NOT AVAILABLE'));
 
         // let author=JSON.stringify(navigation.getParam('author', 'NOT AVAILABLE'));
-        let content=navigation.getParam('content', 'NOT AVAILABLE');
+        // let content=navigation.getParam('content', 'NOT AVAILABLE');
+        // console.log(this.state.url.text)
         console.log(thumbnail)
-        
+        if (this.state.isReady){
             return (
                 <View>
                     
                     <ScrollView>
-                        <TouchableOpacity onPress={ ()=>{ Linking.openURL(this.state.url)}}>
+                        <TouchableOpacity onPress={ ()=>{ Linking.openURL(this.state.url.url)}}>
                             <Image source={{uri: thumbnail}} style={styles.gradientimage}/>
-                            <Text numberOfLines={2} style={[styles.baseText, styles.listRow_text]}>{title}</Text>
+                            
                         </TouchableOpacity>
+                        
                         <View style={styles.bottomView}>
                             <Text style={[styles.baseText, styles.subTitleText]}>{source}</Text>
                             <Text style={[styles.baseText, styles.subTitleText]}>{"  •  "}</Text>
-                            <Text style={[styles.baseText, styles.subTitleText]}>{publishedAt}</Text>
+                            <Text style={[styles.baseText, styles.subTitleText]}>{this.state.url.date_publish}    </Text>
+                            <Button onPress={this.onShare} title="Share" style={color="#555"} />
+
                         </View>
+                      
                         <View style={styles.body}>
                             {/* <HTMLView stylesheet={htmlstyles} value={content} /> */}
-                            <Text>
-                                {content}
+                            <View style={{flexDirection: 'row'}}>
+                            <Text style={styles.baseText} onPress={this.onShare}>{this.state.url.title}</Text>
+                            </View>
+                            <Text style={styles.bodyText}>
+                                {this.state.url.text}
                             </Text>
                         </View>
                         <View style={styles.bottomPadding}>
@@ -89,6 +127,14 @@ class NewsDetail extends Component {
                     </ScrollView>
                 </View >
             );
+        }
+            else{
+                return(
+                  <View style={[styles.containerLoading, styles.horizontal]}>
+                  <ActivityIndicator size="large" color="#0000ff" />
+                </View>
+                )
+              }
     }
 }
 const htmlstyles = StyleSheet.create({
@@ -105,6 +151,19 @@ const styles = StyleSheet.create({
         width: width,
         height: 220,
     },
+    bodyText:{
+        fontSize:20,
+
+    },
+    horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10
+      },
+      containerLoading: {
+        flex: 1,
+        justifyContent: 'center'
+      },
     body: {
         top: 17,
         left: 17,
@@ -132,11 +191,11 @@ const styles = StyleSheet.create({
         left: 17,
         top: 16,
     },
-    baseText: {
-     
-        fontSize: AppConfig.baseFontSize,
-        fontWeight: 'bold',
-        color: AppConfig.textColor,
+    baseText: { 
+        fontSize: 28,
+        fontWeight: '600',
+        color:"#555",
+        fontStyle:'italic',
     },
     listRow_text: {
         textAlign: 'left',
@@ -158,7 +217,7 @@ const styles = StyleSheet.create({
         height: 240,
     },
     subTitleText: {
-        fontSize: 10,
+        fontSize: 12,
         color: AppConfig.textColor,
     },
 });

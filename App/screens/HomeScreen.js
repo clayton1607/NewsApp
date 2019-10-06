@@ -62,7 +62,6 @@ export default class HomeScreen extends Component{
           onSubmitEditing={this.searchFetch}
           onChangeText={this.updateSearch}
           value={this.state.search}
-          showLoading={true}
         />
       {/* <Picker
   selectedValue={this.state.language}
