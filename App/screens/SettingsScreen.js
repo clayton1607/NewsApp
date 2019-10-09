@@ -53,8 +53,9 @@ export default class App extends Component {
           selectedItems={this.state.selectedItems}
           iconKey="icon"
         />        
-        <Text  >Select country</Text>
+        <Text  style={styles.body}>Select country</Text>
         <CountryPicker
+          
           countryList={LIST}
           onChange={value => {
             this.setState({ cca2: value.cca2 })
@@ -91,9 +92,14 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     margin: 10
   },
+  body:{
+    fontSize: 18,
+    textAlign: 'left',
+    margin: 10
+  },
   instructions: {
-    fontSize: 12,
-    textAlign: 'right',
+    fontSize: 20,
+    textAlign: 'center',
     color: '#888',
     marginBottom: 5
   },

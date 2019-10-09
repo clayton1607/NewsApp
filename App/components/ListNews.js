@@ -28,7 +28,7 @@ class ListNews extends Component {
         // logo:'https://api.ritekit.com/v1/images/logo?domain='+getDomain+'&client_id=1ef911e9c38215b9b9f663051b4496920a7b8c8f2b66',
         let getDomain = extractDomain(this.props.url);
         this.setState({
-            logo:'https://images.pexels.com/photos/949586/pexels-photo-949586.jpeg?cs=srgb&dl=celebration-craft-creative-949586.jpg&fm=jpg',
+            logo:'https://api.ritekit.com/v1/images/logo?domain='+getDomain+'&client_id=1ef911e9c38215b9b9f663051b4496920a7b8c8f2b66',
             isReady:true})
     }
     render() {
