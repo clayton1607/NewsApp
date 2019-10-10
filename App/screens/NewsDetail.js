@@ -41,7 +41,7 @@ class NewsDetail extends Component {
     componentDidMount = () => {
         const { navigation } = this.props;
         let url=navigation.getParam('url', 'NOT AVAILABLE');
-        axios.post('http://192.168.1.105:5002/url',{url:url}).then(res=>{
+        axios.post('http://192.168.43.29:5002/url',{url:url}).then(res=>{
             this.setState({
                 url:res.data[0],
                 isReady:true

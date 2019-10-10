@@ -28,7 +28,7 @@ class ListNews extends Component {
         // logo:'https://api.ritekit.com/v1/images/logo?domain='+getDomain+'&client_id=1ef911e9c38215b9b9f663051b4496920a7b8c8f2b66',
         let getDomain = extractDomain(this.props.url);
         this.setState({
-            logo:'https://api.ritekit.com/v1/images/logo?domain='+getDomain+'&client_id=1ef911e9c38215b9b9f663051b4496920a7b8c8f2b66',
+            logo:'https://api.ritekit.com/v1/images/logo?domain='+getDomain+'&client_id=apikey',
             isReady:true})
     }
     render() {

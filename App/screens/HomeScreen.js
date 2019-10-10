@@ -45,7 +45,7 @@ export default class HomeScreen extends Component{
   searchFetch=search=>{
     axios.get("https://newsapi.org/v2/everything",{params:{
       q:this.state.search,
-      apiKey:'48041bd93c834e97b57eb595d62e8e5b'
+      apiKey:'api--key'
     }}).then(
       res=>{
         this.setState({articles:res.data.articles});
