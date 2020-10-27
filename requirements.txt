@@ -9,7 +9,7 @@ cmake==3.12.0
 colorama==0.3.7
 constantly==15.1.0
 crypto==1.4.1
-cryptography==2.1.4
+cryptography==3.2
 dlib==19.16.0
 enum34==1.1.6
 future==0.17.1
