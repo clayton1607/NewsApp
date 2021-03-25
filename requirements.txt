@@ -45,7 +45,7 @@ pyserial==3.4
 pysqlite==2.7.0
 python-twitter==3.1
 pyxdg==0.25
-PyYAML==5.1
+PyYAML==5.4
 requests==2.21.0
 requests-oauthlib==1.2.0
 rpm==4.14.1
