@@ -49,7 +49,7 @@ PyYAML==5.1
 requests==2.21.0
 requests-oauthlib==1.2.0
 rpm==4.14.1
-rsa==4.0
+rsa==4.7
 SecretStorage==2.3.1
 service-identity==16.0.0
 shellescape==3.4.1
