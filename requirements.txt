@@ -28,7 +28,7 @@ numpy==1.15.3
 oauthlib==3.0.1
 opencv-python==3.4.3.18
 PAM==0.4.2
-paramiko==2.0.0
+paramiko==2.10.1
 Parsley==1.2
 pexpect==4.2.1
 psutil==5.4.2
